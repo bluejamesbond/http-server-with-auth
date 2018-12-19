@@ -124,6 +124,15 @@ function listen(port) {
     };
   }
 
+  var configFile = process.env.NODE_HTTP_SERVER_CONFIG_FILE;
+  if (configFile) {
+     try {
+        options = Object.assign(options, require(configFile));
+     } catch (e) {
+        console.error(e);   
+     }
+  }
+    
   var server = httpServer.createServer(options);
   server.listen(port, host, function () {
     var canonicalHost = host === '0.0.0.0' ? '127.0.0.1' : host,
